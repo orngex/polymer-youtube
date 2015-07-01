@@ -1,0 +1,102 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="my-newelement">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+    <h1>my-newlelement</h1>
+
+    <iron-ajax
+      auto
+      url="http://api.openweathermap.org/data/2.5/forecast/daily"
+      params="{{ajaxParams2()}}"
+      handle-as="json"
+      last-response="{{ajaxResponse}}"></iron-ajax>
+    <input id="man" is="iron-input" type="text" label="Input City" bind-value="{{city}}">
+    <paper-button on-click="cval">City Value</paper-button>
+    <span>{{city}}</span>
+    <!--<section class="flex layout horizontal wrap">-->
+    <br>
+    <hr/>
+    <span>{{ajaxResponse.city.id}}</span>
+    <span>{{ajaxResponse.city.name}}</span>
+    <template is="dom-repeat" items="[[ajaxResponse.list]]">
+      <span>{{item.dt}}</span><br/>
+    </template>
+    <!--</section>-->
+
+  </template>
+</dom-module>
+<script>
+  (function () {
+    Polymer({
+      is: 'my-newelement',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'bar',
+          notify: true
+        },
+        nike: {
+          type: Object
+        },
+        city: {
+          type: String,
+          value: "London",
+          notify: true
+        },
+        ajaxParams: {
+          type: String,
+          computed: 'processparams(part1, qry, maxResults1, key1)',
+          notify: true
+        }
+      },
+
+      handleResponse: function (request) {
+        console.log("response recieved");
+      },
+
+      processparams: function (part1, qry, maxResults1, key1) {
+        console.log("ProcessParams");
+        var param = JSON.stringify({part: part1, q: qry, maxResults: maxResults1, key: key1});
+        console.log(param);
+        return param;
+      },
+
+      response: function () {
+        console.log("response")
+      },
+
+      ajaxParams2: function (part1, qry, maxResults1, key1) {
+        console.log(this.properties.city.value)
+        return {
+          part: part1,
+          q: this.properties.city.value,
+          maxResults: maxResults1,
+          key: key1
+        };
+      },
+
+      cval: function () {
+        console.log("cval");
+//        console.log("cval" + this.$.document.getElementById('man'));
+        console.log("cval-> " + document.getElementById('man').value);
+        console.log("cval-> " + this.properties.city.value);
+      }
+    });
+  })();
+</script>
