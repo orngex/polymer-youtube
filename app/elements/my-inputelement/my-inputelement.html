@@ -1,0 +1,82 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="my-inputelement">
+  <style>
+    :host {
+      display: block;
+      font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial;
+    }
+
+    .my-button {
+      background: dodgerblue;
+      color: white;
+    }
+
+    .myironinput {
+      height: auto;
+      width: 500px;
+      margin: 50px;
+      min-height: 500px;
+      padding: 30px;
+    }
+  </style>
+  <template>
+    <paper-material class="myironinput" elevation="5">
+      Please enter here <input is="iron-input"
+                               bind-value="{{bindValue}}"
+                               value="{{value::input}}">
+      <br/>
+      <br/>
+      <i>Output Value</i>: <b>{{value}}</b>
+      <br>
+      <i>Output Bind Value</i>: <b>{{bindValue}}</b>
+      <br>
+      <br>
+      <paper-button class="my-button"
+                    on-click="updateValue">Update Value
+      </paper-button>
+      <paper-button class="my-button"
+                    on-click="updateBindedValue">Update Bind Value
+      </paper-button>
+      <br/>
+      <br/>
+
+      <input is="iron-input" allowed-pattern="[!@#$%^a-zA-Z ]" prevent-invalid-input>
+
+    </paper-material>
+  </template>
+</dom-module>
+<script>
+  (function () {
+    Polymer({
+      is: 'my-inputelement',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'bar',
+          notify: true
+        }
+      },
+
+      updateValue: function () {
+        document.querySelector("input[is=iron-input").value = "Nike";
+      },
+
+      updateBindedValue: function () {
+        document.querySelector("input[is=iron-input").bindValue = "Binded Nike Value";
+      }
+
+    })
+  })();
+</script>

@@ -14,8 +14,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <style>
     :host {
       display: block;
-      font-family: 'RobotoDraft', 'Roboto', arial, sans-serif;
+      font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial;
       color: gray;
+    }
+
+    .iron-selected {
+      background: #eee;
     }
 
     h1, h4 {
@@ -37,6 +41,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       margin-right: 100px;
       margin-top: 10px;
       color: white;
+      height: auto;
+      width: 200px;
+    }
+
+    .headMaterial {
+      background: #FFF;
+      padding: 20px;
+      margin-left: 100px;
+      margin-right: 100px;
+      margin-bottom: 10px;
     }
 
     span {
@@ -48,9 +62,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   </style>
   <template>
-    <h1>Weather Forecast</h1>
-    <h4>My-AjaxElement</h4>
-
+    <paper-material class="headMaterial">
+      <h1>Weather Forecast</h1>
+      <h4>My-AjaxElement</h4>
+    </paper-material>
     <!--<div>Hello from <span>{{foo}}</span></div>-->
 
     <span class="basicData">
@@ -60,7 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-ajax
       auto
       url="http://api.openweathermap.org/data/2.5/forecast"
-      params='{"q":"California", "mode":"json", "cnt":"7"}'
+      params='{"q":"California", "mode":"json", "cnt":"9"}'
       handle-as="json"
       on-response="handleResponse"
       last-response="{{ajaxResponse}}"></iron-ajax>
@@ -77,20 +92,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </paper-material>
 
     <br/>
-    <template is="dom-repeat" items="[[ajaxResponse.list]]">
-      <paper-material class="cityTempData" elevation="5">
-        Date: <span>{{item.dt}}</span><br/>
-        <template is="dom-repeat" items="[[item.weather]]">
-          Condition: <span>{{item.main}}</span><br>
-          Description: <span>{{item.description}}</span><br>
-        </template>
-        Min. Temp : <span>{{item.main.temp_min}}</span><br/>
-        Max. Temp: <span>{{item.main.temp_max}}</span><br/>
-        Pressure: <span>{{item.main.pressure}}</span><br/>
-        humidity: <span>{{item.main.humidity}}</span><br/>
-      </paper-material>
-    </template>
 
+    <section class="flex layout horizontal wrap">
+      <template is="dom-repeat" items="{{ajaxResponse.list}}">
+        <paper-material class="cityTempData" elevation="5">
+          Date: <span>{{item.dt}}</span><br/>
+          <template is="dom-repeat" items="{{item.weather}}">
+            Condition: <span>{{item.main}}</span><br>
+            Description: <span>{{item.description}}</span><br>
+          </template>
+          Min. Temp : <span>{{item.main.temp_min}}</span><br/>
+          Max. Temp: <span>{{item.main.temp_max}}</span><br/>
+          Pressure: <span>{{item.main.pressure}}</span><br/>
+          humidity: <span>{{item.main.humidity}}</span><br/>
+        </paper-material>
+      </template>
+    </section>
   </template>
 </dom-module>
 <script>
